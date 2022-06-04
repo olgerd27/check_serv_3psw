@@ -1,6 +1,5 @@
 #/bin/bash
-# Checking the 3PSW, installed on the server, and the server itself.
-# Supports Linux for now only.
+# The main program
 
 # Initial data
 HOST=$(hostname | cut -d'.' -f1)
