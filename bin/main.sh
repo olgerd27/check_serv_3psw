@@ -4,7 +4,8 @@
 # Initial data
 HOST=$(hostname | cut -d'.' -f1)
 
-D_OUT=../out
+D_CURR=$(dirname $0)
+D_OUT=${D_CURR}/../out
 D_OUT=$(realpath ${D_OUT})
 FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 
@@ -15,7 +16,7 @@ FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 function title
 {
   echo "**********************************************************************"
-  echo "Checking of the installed 3PSW on ${HOST}"
+  echo "Checking the installed 3PSW on ${HOST}"
   echo "**********************************************************************"
 }
 
@@ -27,7 +28,8 @@ function host_info
   echo "**********************************************************************"
 }
 
-# Start the program
+####### Start the program
+touch $FL_REP
 title | tee $FL_REP
 host_info >>$FL_REP
 
@@ -47,6 +49,7 @@ gcc.x86_64                     11.2.1-9.fc35            @updates
 gcc-gdb-plugin.x86_64          11.2.1-9.fc35            @updates
 glibc.x86_64                   2.34-29.fc35             @updates"
 
+####### The Main loop
 for PKG in bison byacc flex gcc make perl jdk; do
   echo "Package ${PKG}:"
   # the 'found' packages in the 'installed' packages list
