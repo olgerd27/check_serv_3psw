@@ -12,7 +12,8 @@ FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 # Initial checks
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
 
-# Some functions
+####### Functions
+# Print the program title
 function title
 {
   echo "**********************************************************************"
@@ -20,6 +21,7 @@ function title
   echo "**********************************************************************"
 }
 
+# Print the current host info
 function host_info
 {
   cat /etc/redhat-release
@@ -28,13 +30,17 @@ function host_info
   echo "**********************************************************************"
 }
 
+# Do the output to stdout and to the Report file
+# $1 - data to be output
+function do_out
+{
+  echo "$1" | tee -a $FL_REP
+}
+
 ####### Start the program
 touch $FL_REP
-title | tee $FL_REP
-host_info >>$FL_REP
-
-printf "The Report file:\n%s\n" $FL_REP
-exit
+do_out "$(title)"
+do_out "$(host_info)"
 
 # Getting the packages
 # - using yum 
@@ -51,23 +57,23 @@ glibc.x86_64                   2.34-29.fc35             @updates"
 
 ####### The Main loop
 for PKG in bison byacc flex gcc make perl jdk; do
-  echo "Package ${PKG}:"
-  # the 'found' packages in the 'installed' packages list
+  do_out "Package ${PKG}:"
+  # search packages in the 'installed' packages list
   PKG_INST_FND=$(echo "$PKGS_INST" | grep ${PKG}) 
   if [ $? -eq 0 ]; then
-    echo "$PKG_INST_FND"
+    do_out "$PKG_INST_FND"
   else
-    echo "NOT INSTALLED"
-    # the 'found' packages in the 'available' packages list
+    do_out "NOT INSTALLED"
+    # search packages in the 'available' packages list
     PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep ${PKG}) 
     if [ $? -eq 0 ]; then
-      echo "Available in the following packages:"
-      echo "$PKG_AVLB_FND"
+      do_out "Available in the following packages:"
+      do_out "$PKG_AVLB_FND"
     else
-      echo "NOT AVAILABLE"
+      do_out "NOT AVAILABLE"
     fi
   fi
-  echo "==========================="
+  do_out "==========================="
 done
 
 printf "The Report file:\n%s\n" $FL_REP
