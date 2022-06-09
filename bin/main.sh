@@ -1,7 +1,9 @@
 #/bin/bash
+###############################################################################
 # The main program
+###############################################################################
 
-# Initial data
+####### Initial data
 HOST=$(hostname | cut -d'.' -f1)
 
 D_CURR=$(dirname $0)
@@ -9,16 +11,20 @@ D_OUT=${D_CURR}/../out
 D_OUT=$(realpath ${D_OUT})
 FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 
-# Initial checks
+# Set the separator lines for the different data types
+SEP_HEAD="**********************************************************************"
+SEP_BODY="==========================="
+
+####### Initial checks
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
 
 ####### Functions
 # Print the program Title
 function prn_title
 {
-  echo "**********************************************************************"
+  echo "$SEP_HEAD"
   echo "	Checking the installed 3PSW on ${HOST}"
-  echo "**********************************************************************"
+  echo "$SEP_HEAD"
 }
 
 # Print the current server info
@@ -28,7 +34,7 @@ function prn_serv_info
   cat /etc/redhat-release
   uname -a
   uptime
-  echo "**********************************************************************"
+  echo "$SEP_HEAD"
 }
 
 # Print a list of enabled repositories
@@ -36,7 +42,7 @@ function prn_list_repos
 {
   echo "	List of enabled repositories:"
   yum repolist
-  echo "**********************************************************************"
+  echo "$SEP_HEAD"
 }
 
 # Do the output to stdout and to the Report file
@@ -83,7 +89,7 @@ for PKG in bison byacc flex gcc make perl jdk; do
       do_out "NOT AVAILABLE"
     fi
   fi
-  do_out "==========================="
+  do_out "$SEP_BODY"
 done
 
 printf "The Report file:\n%s\n" $FL_REP
