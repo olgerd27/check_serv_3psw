@@ -1,0 +1,29 @@
+Package short name:Package long name:Command to get version
+gcc.x86_64:GNU GCC Compiler:gcc -v
+make.x86_64:GNU Make:make -v
+:Oracle Client 19c 32-bit:df | grep "19Cc_32$"
+:Oracle Client 19c 64-bit:df | grep "19C$"
+:Oracle JDK 8.0_u301 64-bit:/opt/jdk1.8.0_301_64bit/bin/java -v
+bison.x86_64:GNU Bison:
+byacc.x86_64:Berkeley Yacc:
+flex.x86_64:Fast Lexical Analyzer Generator:
+perl.x86_64:Perl programming language:perl -v
+glibc.i686:32-bit:
+glibc.x86_64:64-bit:
+glibc-devel.i686::
+glibc-devel.x86_64::
+libX11::
+libXau::
+libXi.i686::X.Org X11 libXi 32-bit runtime library
+libXi.x86_64::X.Org X11 libXi 64-bit runtime library
+libXrender::
+libXtst::
+libaio::
+libaio-devel::
+libnsl::
+libnsl2-devel::
+libstdc++-devel::
+libxcb::
+ncurses-devel::
+nss_nis::
+zlib::
