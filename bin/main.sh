@@ -13,20 +13,29 @@ FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
 
 ####### Functions
-# Print the program title
-function title
+# Print the program Title
+function prn_title
 {
   echo "**********************************************************************"
-  echo "Checking the installed 3PSW on ${HOST}"
+  echo "	Checking the installed 3PSW on ${HOST}"
   echo "**********************************************************************"
 }
 
-# Print the current host info
-function host_info
+# Print the current server info
+function prn_serv_info
 {
+  echo "	Server info:"
   cat /etc/redhat-release
   uname -a
   uptime
+  echo "**********************************************************************"
+}
+
+# Print a list of enabled repositories
+function prn_list_repos
+{
+  echo "	List of enabled repositories:"
+  yum repolist
   echo "**********************************************************************"
 }
 
@@ -39,8 +48,9 @@ function do_out
 
 ####### Start the program
 touch $FL_REP
-do_out "$(title)"
-do_out "$(host_info)"
+do_out "$(prn_title)"
+do_out "$(prn_serv_info)"
+do_out "$(prn_list_repos)"
 
 # Getting the packages
 # - using yum 
