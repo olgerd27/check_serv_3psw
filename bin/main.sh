@@ -6,9 +6,14 @@
 ####### Initial data
 HOST=$(hostname | cut -d'.' -f1)
 
+# Dirs & files
 D_CURR=$(dirname $0)
+D_DAT=${D_CURR}/../dat
 D_OUT=${D_CURR}/../out
+D_DAT=$(realpath ${D_DAT})
 D_OUT=$(realpath ${D_OUT})
+
+FL_DAT=${D_DAT}/${HOST}.dat
 FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 
 # Set the separator lines for the different data types
