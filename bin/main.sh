@@ -89,21 +89,26 @@ make.x86_64                    1:4.3-6.fc35             @anaconda
 gcc.x86_64                     11.2.1-9.fc35            @updates
 gcc-gdb-plugin.x86_64          11.2.1-9.fc35            @updates
 glibc.x86_64                   2.34-29.fc35             @updates"
+PKGS_AVLB="Available Packages
+bison.x86_64                   3.7.6-3.fc35             fedora
+cmake.x86_64                   3.22.2-1.fc35            updates
+glibc.i686                     2.34-34.fc35             updates                   
+glibc.x86_64                   2.34-34.fc35             updates"
 
 ####### The Main loop
-for PKG in bison byacc flex gcc make perl jdk; do
+for PKG in gcc.x86_64 bison.x86_64 make.x86_64 glibc.x86_64 libXi.i686; do
   do_out "Package ${PKG}:" 12
   # search packages in the 'installed' packages list
   PKG_INST_FND=$(echo "$PKGS_INST" | grep ${PKG}) 
   if [ $? -eq 0 ]; then
-    do_out "IS INSTALLED" 12
+    do_out "INSTALLED" 12
     do_out "$PKG_INST_FND" 2
   else
     do_out "NOT INSTALLED" 12
     # search packages in the 'available' packages list
     PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep ${PKG}) 
     if [ $? -eq 0 ]; then
-      do_out "IS AVAILABLE" 12
+      do_out "AVAILABLE" 12
       do_out "$PKG_AVLB_FND" 2
     else
       do_out "NOT AVAILABLE" 12
