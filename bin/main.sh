@@ -99,14 +99,14 @@ glibc.x86_64                   2.34-34.fc35             updates"
 for PKG in gcc.x86_64 bison.x86_64 make.x86_64 glibc.x86_64 libXi.i686; do
   do_out "Package ${PKG}:" 12
   # search packages in the 'installed' packages list
-  PKG_INST_FND=$(echo "$PKGS_INST" | grep ${PKG}) 
+  PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG}") 
   if [ $? -eq 0 ]; then
     do_out "INSTALLED" 12
     do_out "$PKG_INST_FND" 2
   else
     do_out "NOT INSTALLED" 12
     # search packages in the 'available' packages list
-    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep ${PKG}) 
+    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG}") 
     if [ $? -eq 0 ]; then
       do_out "AVAILABLE" 12
       do_out "$PKG_AVLB_FND" 2
