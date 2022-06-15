@@ -35,7 +35,7 @@ function prn_title
 # Print the current server info
 function prn_serv_info
 {
-  echo "	Server info:"
+  echo "Server info:"
   cat /etc/redhat-release
   uname -a
   uptime
@@ -45,23 +45,37 @@ function prn_serv_info
 # Print a list of enabled repositories
 function prn_list_repos
 {
-  echo "	List of enabled repositories:"
+  echo "List of enabled repositories:"
   yum repolist
   echo "$SEP_HEAD"
 }
 
-# Do the output to stdout and to the Report file
+# Do the output in different output direction modes.
 # $1 - data to be output
+# $2 - output mode: 
+#      1  - to stdout
+#      2  - to Report
+#      12 - to stdout & Report
 function do_out
 {
-  echo "$1" | tee -a $FL_REP
+  if [ "$2" = "1" ]; then
+    echo "$1"
+  elif [ "$2" = "2" ]; then
+    echo "$1" >> $FL_REP
+  elif [ "$2" = "12" ]; then
+    echo "$1" | tee -a $FL_REP
+  else
+    printf "!---Error 55: invalid output mode '%i' to output the following:\n%s\n" \
+      "$2" "$1" 1>&2
+    exit 55
+  fi
 }
 
 ####### Start the program
 touch $FL_REP
-do_out "$(prn_title)"
-do_out "$(prn_serv_info)"
-do_out "$(prn_list_repos)"
+do_out "$(prn_title)" 12
+do_out "$(prn_serv_info)" 2
+do_out "$(prn_list_repos)" 2
 
 # Getting the packages
 # - using yum 
@@ -78,23 +92,27 @@ glibc.x86_64                   2.34-29.fc35             @updates"
 
 ####### The Main loop
 for PKG in bison byacc flex gcc make perl jdk; do
-  do_out "Package ${PKG}:"
+  do_out "Package ${PKG}:" 12
   # search packages in the 'installed' packages list
   PKG_INST_FND=$(echo "$PKGS_INST" | grep ${PKG}) 
   if [ $? -eq 0 ]; then
-    do_out "$PKG_INST_FND"
+    do_out "IS INSTALLED" 12
+    do_out "$PKG_INST_FND" 2
   else
-    do_out "NOT INSTALLED"
+    do_out "NOT INSTALLED" 12
     # search packages in the 'available' packages list
     PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep ${PKG}) 
     if [ $? -eq 0 ]; then
-      do_out "Available in the following packages:"
-      do_out "$PKG_AVLB_FND"
+      do_out "IS AVAILABLE" 12
+      do_out "$PKG_AVLB_FND" 2
     else
-      do_out "NOT AVAILABLE"
+      do_out "NOT AVAILABLE" 12
     fi
   fi
-  do_out "$SEP_BODY"
+  do_out "$SEP_BODY" 12
 done
 
-printf "The Report file:\n%s\n" $FL_REP
+# Print the Report file name
+do_out "The Report file:
+${FL_REP}" 1
+
