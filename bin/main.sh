@@ -71,7 +71,7 @@ for PKG in gcc.x86_64 bison.x86_64 glibc.x86_64 libXi.i686 make.x86_64; do
     do_out "NOT AVAILABLE" 12
   fi
 
-  do_out "$SEP_BODY" 12
+  do_out "$SEP_BODY" 12  # print the line separator
 done
 
 # Print the Report file name
