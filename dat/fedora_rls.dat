@@ -1,6 +1,6 @@
-# Package short name:Package long name:Bittness:Command to get version
-gcc.x86_64:GNU GCC Compiler:64:gcc -v
-make.x86_64:GNU Make:64:make -v
+# Package short name:Package long name:Bittness:Command to get additional info
+gcc.x86_64:GNU GCC Compiler:64:gcc -v 2>&1 | tail -1
+make.x86_64:GNU Make:64:make -v | head -1
 :Oracle Client 19c:32:df | grep "19Cc_32$"
 :Oracle Client 19c:64:df | grep "19C$"
 :Oracle JDK 8.0_u301:64:/opt/jdk1.8.0_301_64bit/bin/java -v
