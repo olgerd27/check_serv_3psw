@@ -50,11 +50,18 @@ glibc.i686                     2.34-34.fc35             updates
 glibc.x86_64                   2.34-34.fc35             updates"
 
 ####### The Main loop
-for PKG in gcc.x86_64 bison.x86_64 glibc.x86_64 libXi.i686 make.x86_64; do
-  do_out "Package ${PKG}:" 12
+while read -r LINE; do
+  # Parsing the line
+  PKG_SHRT_NAME=$(echo "$LINE" | cut -d":" -f1) # short name
+  PKG_LONG_NAME=$(echo "$LINE" | cut -d":" -f2) # long name
+  PKG_BIT=$(echo "$LINE" | cut -d":" -f3)       # bitness
+  PKG_CMD=$(echo "$LINE" | cut -d":" -f4)       # command to execute
 
-  # Search the packages in the 'installed' packages list
-  PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG}") 
+  # TODO: handle here the case if PKG_SHRT_NAME is an empty string
+  do_out "Package '${PKG_LONG_NAME}' (${PKG_SHRT_NAME}):" 12
+
+  # The found packages in the 'installed' packages list
+  PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME}") 
   if [ $? -eq 0 ]; then
     do_out "INSTALLED" 12
     do_out "$PKG_INST_FND" 2
@@ -62,8 +69,8 @@ for PKG in gcc.x86_64 bison.x86_64 glibc.x86_64 libXi.i686 make.x86_64; do
     do_out "NOT INSTALLED" 12
   fi
 
-  # Search the packages in the 'available' packages list
-  PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG}") 
+  # The found packages in the 'available' packages list
+  PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME}") 
   if [ $? -eq 0 ]; then
     do_out "AVAILABLE" 12
     do_out "$PKG_AVLB_FND" 2
@@ -72,7 +79,7 @@ for PKG in gcc.x86_64 bison.x86_64 glibc.x86_64 libXi.i686 make.x86_64; do
   fi
 
   do_out "$SEP_BODY" 12  # print the line separator
-done
+done < <(sed '/^#/d ; /^$/d' $FL_DAT)
 
 # Print the Report file name
 do_out "The Report file:
