@@ -57,25 +57,35 @@ while read -r LINE; do
   PKG_BIT=$(echo "$LINE" | cut -d":" -f3)       # bitness
   PKG_CMD=$(echo "$LINE" | cut -d":" -f4)       # command to execute
 
-  [ -n "$PKG_SHRT_NAME" ] && STR_SHRT=" (${PKG_SHRT_NAME})" || STR_SHRT=""
-  do_out "Package '${PKG_LONG_NAME}'${STR_SHRT}:" 12
-
-  # The found packages in the 'installed' packages list
-  PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME}") 
-  if [ $? -eq 0 ]; then
-    do_out "INSTALLED" 12
-    do_out "$PKG_INST_FND" 2
-  else
-    do_out "NOT INSTALLED" 12
+  # Taking decisions based on the initial data (dat-file)
+  STR_SHRT=""  # init the string to be displayed the package short name
+  CAN_FIND_PKG=False  # init flag if it's possible to find package in package manager
+  if [ -n "$PKG_SHRT_NAME" ]; then
+    STR_SHRT=" (${PKG_SHRT_NAME})"
+    CAN_FIND_PKG=True
   fi
 
-  # The found packages in the 'available' packages list
-  PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME}") 
-  if [ $? -eq 0 ]; then
-    do_out "AVAILABLE" 12
-    do_out "$PKG_AVLB_FND" 2
-  else
-    do_out "NOT AVAILABLE" 12
+  do_out "Package '${PKG_LONG_NAME}'${STR_SHRT}:" 12
+
+  # Execute only if the the package short name is specified in the dat-file
+  if [ $CAN_FIND_PKG = True ]; then
+    # The found packages in the 'installed' packages list
+    PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME}") 
+    if [ $? -eq 0 ]; then
+      do_out "INSTALLED" 12
+      do_out "$PKG_INST_FND" 2
+    else
+      do_out "NOT INSTALLED" 12
+    fi
+
+    # The found packages in the 'available' packages list
+    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME}") 
+    if [ $? -eq 0 ]; then
+      do_out "AVAILABLE" 12
+      do_out "$PKG_AVLB_FND" 2
+    else
+      do_out "NOT AVAILABLE" 12
+    fi
   fi
 
   do_out "$SEP_BODY" 12  # print the line separator
