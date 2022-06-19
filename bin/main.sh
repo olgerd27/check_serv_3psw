@@ -57,8 +57,8 @@ while read -r LINE; do
   PKG_BIT=$(echo "$LINE" | cut -d":" -f3)       # bitness
   PKG_CMD=$(echo "$LINE" | cut -d":" -f4)       # command to execute
 
-  # TODO: handle here the case if PKG_SHRT_NAME is an empty string
-  do_out "Package '${PKG_LONG_NAME}' (${PKG_SHRT_NAME}):" 12
+  [ -n "$PKG_SHRT_NAME" ] && STR_SHRT=" (${PKG_SHRT_NAME})" || STR_SHRT=""
+  do_out "Package '${PKG_LONG_NAME}'${STR_SHRT}:" 12
 
   # The found packages in the 'installed' packages list
   PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME}") 
