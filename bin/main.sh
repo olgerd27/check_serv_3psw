@@ -70,7 +70,7 @@ while read -r LINE; do
   # Execute only if the the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
     # The found packages in the 'installed' packages list
-    PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME}") 
+    PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME} ") 
     if [ $? -eq 0 ]; then
       do_out "INSTALLED" 12
       do_out "$PKG_INST_FND" 2
@@ -79,7 +79,7 @@ while read -r LINE; do
     fi
 
     # The found packages in the 'available' packages list
-    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME}") 
+    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME} ") 
     if [ $? -eq 0 ]; then
       do_out "AVAILABLE" 12
       do_out "$PKG_AVLB_FND" 2
