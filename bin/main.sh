@@ -40,14 +40,16 @@ do_out "$(prn_title)" 12
 # - test data for debug
 PKGS_INST="Installed Packages
 make.x86_64                    1:4.3-6.fc35             @anaconda
+ncurses-libs.x86_64            6.2-8.20210508.fc35      @anaconda
 gcc.x86_64                     11.2.1-9.fc35            @updates
 gcc-gdb-plugin.x86_64          11.2.1-9.fc35            @updates
 glibc.x86_64                   2.34-29.fc35             @updates"
 PKGS_AVLB="Available Packages
 bison.x86_64                   3.7.6-3.fc35             fedora
 cmake.x86_64                   3.22.2-1.fc35            updates
-glibc.i686                     2.34-34.fc35             updates                   
-glibc.x86_64                   2.34-34.fc35             updates"
+gcc.x86_64                     11.3.1-2.fc35            updates
+glibc.i686                     2.34-35.fc35             updates                   
+glibc.x86_64                   2.34-35.fc35             updates"
 
 ####### The Main loop
 while read -r LINE; do
