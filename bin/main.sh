@@ -67,7 +67,7 @@ while read -r LINE; do
     CAN_FIND_PKG=True
   fi
 
-  do_out "Package '${PKG_LONG_NAME}'${STR_SHRT}:" 12
+  do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 12
 
   # Execute only if the the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
