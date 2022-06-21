@@ -60,7 +60,7 @@ while read -r LINE; do
   PKG_CMD=$(echo "$LINE" | cut -d":" -f4)       # command to execute
 
   # Taking decisions based on the initial data (dat-file)
-  STR_SHRT=""  # init the string to be displayed the package short name
+  STR_SHRT=""  # init the string with the package short name
   CAN_FIND_PKG=False  # init flag if it's possible to find package in package manager
   if [ -n "$PKG_SHRT_NAME" ]; then
     STR_SHRT=" (${PKG_SHRT_NAME})"
@@ -88,6 +88,21 @@ while read -r LINE; do
     else
       do_out "NOT AVAILABLE" 12
     fi
+  fi
+
+  # Execute the Command from the dat-file
+  if [ -n "$PKG_CMD" ]; then
+    OUT_CMD="$(eval $PKG_CMD 2>&1)"
+    RC_CMD=$?
+    # If Command OK && package cannot be searched in package manager 
+    # (short name is EMPTY), then this package is INSTALLED.
+    if [ $CAN_FIND_PKG = False ]; then
+      [ $RC_CMD -eq 0 ] && 
+        do_out "INSTALLED" 12 ||
+        do_out "NOT INSTALLED" 12
+    fi
+    do_out "Command execution '${PKG_CMD}':" 2
+    do_out "$OUT_CMD" 2
   fi
 
   do_out "$SEP_BODY" 12  # print the line separator
