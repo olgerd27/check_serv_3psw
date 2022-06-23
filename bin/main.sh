@@ -17,11 +17,12 @@ FL_DAT=${D_DAT}/${HOST}.dat
 FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 
 SH_FUNC_PRN=${D_CURR}/func_print.sh
+SH_CHECK_PKG=${D_CURR}/check_pkg.sh
 
 ####### Initialization
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
 # Load the shell-scripts
-for SCR in $SH_FUNC_PRN; do
+for SCR in $SH_FUNC_PRN $SH_CHECK_PKG; do
   . $SCR
 done
 
@@ -69,40 +70,16 @@ while read -r LINE; do
 
   do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 12
 
-  # Execute only if the the package short name is specified in the dat-file
+  # FInd the package(-s) in different packages lists, and run only if the 
+  # the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
-    # The found packages in the 'installed' packages list
-    PKG_INST_FND=$(echo "$PKGS_INST" | grep -E "^${PKG_SHRT_NAME} ") 
-    if [ $? -eq 0 ]; then
-      do_out "INSTALLED" 12
-      do_out "$PKG_INST_FND" 2
-    else
-      do_out "NOT INSTALLED" 12
-    fi
-
-    # The found packages in the 'available' packages list
-    PKG_AVLB_FND=$(echo "$PKGS_AVLB" | grep -E "^${PKG_SHRT_NAME} ") 
-    if [ $? -eq 0 ]; then
-      do_out "AVAILABLE" 12
-      do_out "$PKG_AVLB_FND" 2
-    else
-      do_out "NOT AVAILABLE" 12
-    fi
+    findPackage "$PKGS_INST" "$PKG_SHRT_NAME" "INSTALLED" # installed pkg list
+    findPackage "$PKGS_AVLB" "$PKG_SHRT_NAME" "AVAILABLE" # available pkg list
   fi
 
   # Execute the Command from the dat-file
   if [ -n "$PKG_CMD" ]; then
-    OUT_CMD="$(eval $PKG_CMD 2>&1)"
-    RC_CMD=$?
-    # If Command OK && package cannot be searched in package manager 
-    # (short name is EMPTY), then this package is INSTALLED.
-    if [ $CAN_FIND_PKG = False ]; then
-      [ $RC_CMD -eq 0 ] && 
-        do_out "INSTALLED" 12 ||
-        do_out "NOT INSTALLED" 12
-    fi
-    do_out "Command execution '${PKG_CMD}':" 2
-    do_out "$OUT_CMD" 2
+    ExecPkgCommand "$PKG_CMD" $CAN_FIND_PKG "INSTALLED"
   fi
 
   do_out "$SEP_BODY" 12  # print the line separator
