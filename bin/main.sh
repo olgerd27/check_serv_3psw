@@ -16,7 +16,7 @@ D_OUT=$(realpath ${D_OUT})
 FL_DAT=${D_DAT}/${HOST}.dat
 FL_REP=${D_OUT}/report_${HOST}_$(date +"%Y%m%d_%H%M%S").txt
 
-SH_FUNC_PRN=${D_CURR}/func_print.sh
+SH_FUNC_PRN=${D_CURR}/print.sh
 SH_CHECK_PKG=${D_CURR}/check_pkg.sh
 
 ####### Initialization
