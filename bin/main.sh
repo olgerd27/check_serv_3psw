@@ -25,6 +25,10 @@ SH_CHECK_PKG=${D_CURR}/check_pkg.sh
 for SCR in $SH_FUNC_PRN $SH_CHECK_PKG; do
   . $SCR
 done
+PKG_SHRT_NAME=  # short name
+PKG_LONG_NAME=  # long name
+PKG_BIT=        # bitness
+PKG_CMD=        # command to execute
 
 ####### Start the program
 touch $FL_REP
@@ -55,10 +59,10 @@ glibc.x86_64                   2.34-35.fc35             updates"
 ####### The Main loop
 while read -r LINE; do
   # Parsing the line
-  PKG_SHRT_NAME=$(echo "$LINE" | cut -d":" -f1) # short name
-  PKG_LONG_NAME=$(echo "$LINE" | cut -d":" -f2) # long name
-  PKG_BIT=$(echo "$LINE" | cut -d":" -f3)       # bitness
-  PKG_CMD=$(echo "$LINE" | cut -d":" -f4)       # command to execute
+  PKG_SHRT_NAME=$(getItem "$LINE" ":" 1)
+  PKG_LONG_NAME=$(getItem "$LINE" ":" 2)
+  PKG_BIT=$(getItem "$LINE" ":" 3)
+  PKG_CMD=$(getItem "$LINE" ":" 4)
 
   # Taking decisions based on the initial data (dat-file)
   STR_SHRT=""  # init the string with the package short name

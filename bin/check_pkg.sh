@@ -3,6 +3,17 @@
 # and available.
 ###############################################################################
 
+################################################################
+# Get the data item from the string line (parse the line)
+# $1 - the string line, which will be parsed
+# $2 - items separator
+# #3 - number of item in the string line
+function getItem
+{
+  echo "$1" | cut -d"$2" -f$3
+}
+
+################################################################
 # Find the package(-s) in the packages list
 # $1 - a list of packages
 # $2 - the searched package name
@@ -18,6 +29,7 @@ function findPackage
   fi
 }
 
+################################################################
 # Execute the Command from the dat-file
 # $1 - the Command for the Package
 # $2 - a flag: True - if there is a Short Package Name;
