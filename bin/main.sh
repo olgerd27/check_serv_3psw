@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/ksh
 ###############################################################################
 # The main program
 ###############################################################################
@@ -20,11 +20,15 @@ SH_FUNC_PRN=${D_CURR}/print.sh
 SH_CHECK_PKG=${D_CURR}/check_pkg.sh
 
 ####### Initialization
+# Init checks
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
+
 # Load the shell-scripts
 for SCR in $SH_FUNC_PRN $SH_CHECK_PKG; do
   . $SCR
 done
+
+# Init the variables
 PKG_SHRT_NAME=  # short name
 PKG_LONG_NAME=  # long name
 PKG_BIT=        # bitness
