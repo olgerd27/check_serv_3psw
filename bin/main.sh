@@ -37,15 +37,10 @@ PKG_CMD=        # command to execute
 ####### Start the program
 touch $FL_REP
 do_out "$(prn_title)" 12
-#do_out "$(prn_serv_info)" 2   # TODO: uncomment for release version
-#do_out "$(prn_list_repos)" 2  # TODO: uncomment for release version
+do_out "$(prn_serv_info)" 2   # TODO: uncomment for release version
+do_out "$(prn_list_repos)" 2  # TODO: uncomment for release version
 
 # Getting the packages
-# - using yum 
-#PKGS_INST="$(yum list installed)"
-#PKGS_AVLB="$(yum list available)"
-# - using rpm
-#PKGS_INST="$(rpm -qa)"
 # - test data for debug
 PKGS_INST="Installed Packages
 make.x86_64                    1:4.3-6.fc35             @anaconda
@@ -59,6 +54,11 @@ cmake.x86_64                   3.22.2-1.fc35            updates
 gcc.x86_64                     11.3.1-2.fc35            updates
 glibc.i686                     2.34-35.fc35             updates                   
 glibc.x86_64                   2.34-35.fc35             updates"
+# - using yum 
+PKGS_INST="$(yum list installed)"
+PKGS_AVLB="$(yum list available)"
+# - using rpm
+#PKGS_INST="$(rpm -qa)"
 
 ####### The Main loop
 while read -r LINE; do

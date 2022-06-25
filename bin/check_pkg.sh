@@ -22,6 +22,7 @@ function findPackage
 {
   PKG_FND=$(echo "$1" | grep -E "^${2} ")
   if [ $? -eq 0 ]; then
+    PKG_FND="$(echo "$PKG_FND" | sed 's/     / /g')" # decrease a number of spaces
     do_out "$3" 12
     do_out "$PKG_FND" 2
   else
