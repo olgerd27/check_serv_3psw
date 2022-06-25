@@ -1,0 +1,17 @@
+# Package short name:Package long name:Bittness:Command
+acl.x86_64:Access control list utilities:64:
+atk.x86_64:Interfaces for accessibility support:64:
+bash.x86_64:The GNU Bourne Again shell:64:/usr/bin/bash --version | head -1
+bc.x86_64:GNU's bc (a numeric processing language) and dc (a calculator):64:
+coreutils.x86_64:A set of basic GNU tools commonly used in shell scripts:64:
+containernetworking-plugins.x86_64:Libraries for writing CNI plugin:64:
+curl.x86_64:A utility for getting files from remote servers (FTP, HTTP, and others):64:
+gcc.x86_64:GNU GCC Compiler:64:/usr/bin/gcc -v 2>&1 | tail -1
+ksh.x86_64:The Original ATT Korn Shell:64:/usr/bin/ksh --v
+libX11.x86_64:Core X11 protocol client library:64:
+libblockdev-plugins-all.x86_64:Meta-package that pulls all the libblockdev plugins as dependencies:64:
+libcacard.x86_64:CAC (Common Access Card) library:64:
+libvirt-daemon-driver-interface.x86_64:Interface driver plugin for the libvirtd daemon:64:
+libvirt-daemon-driver-storage-iscsi-direct.x86_64:Storage driver plugin for iscsi-direct:64:
+python3.x86_64:Python 3.10 interpreter:64:/usr/bin/python3 -V
+
