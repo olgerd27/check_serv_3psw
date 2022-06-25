@@ -62,6 +62,9 @@ glibc.x86_64                   2.34-35.fc35             updates"
 
 ####### The Main loop
 while read -r LINE; do
+  # Skip the blank and commented lines 
+  echo "$LINE" | grep -qE "^#|^$" && continue
+
   # Parsing the line
   PKG_SHRT_NAME=$(getItem "$LINE" ":" 1)
   PKG_LONG_NAME=$(getItem "$LINE" ":" 2)
@@ -91,7 +94,7 @@ while read -r LINE; do
   fi
 
   do_out "$SEP_BODY" 12  # print the line separator
-done < <(sed '/^#/d ; /^$/d' $FL_DAT)
+done < $FL_DAT
 
 # Print the Report file name
 do_out "The Report file:
