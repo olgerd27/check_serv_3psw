@@ -37,10 +37,11 @@ PKG_CMD=        # command to execute
 ####### Start the program
 touch $FL_REP
 do_out "$(prn_title)" 12
-do_out "$(prn_serv_info)" 2   # TODO: uncomment for release version
-do_out "$(prn_list_repos)" 2  # TODO: uncomment for release version
+do_out "$(prn_serv_info)" 2 
+do_out "$(prn_list_repos)" 2
 
 # Getting the packages
+printf "Getting the packages..."
 # - test data for debug
 PKGS_INST="Installed Packages
 make.x86_64                    1:4.3-6.fc35             @anaconda
@@ -59,6 +60,7 @@ PKGS_INST="$(yum list installed)"
 PKGS_AVLB="$(yum list available)"
 # - using rpm
 #PKGS_INST="$(rpm -qa)"
+printf "DONE\n%s\n" $SEP_BODY
 
 ####### The Main loop
 while read -r LINE; do
@@ -84,8 +86,8 @@ while read -r LINE; do
   # FInd the package(-s) in different packages lists, and run only if the 
   # the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
-    findPackage "$PKGS_INST" "$PKG_SHRT_NAME" "INSTALLED" # installed pkg list
-    findPackage "$PKGS_AVLB" "$PKG_SHRT_NAME" "AVAILABLE" # available pkg list
+    findPackage "$PKGS_INST" "$PKG_SHRT_NAME" "INSTALLED" #find in installed pkg list
+    findPackage "$PKGS_AVLB" "$PKG_SHRT_NAME" "AVAILABLE" #find in available pkg list
   fi
 
   # Execute the Command from the dat-file
@@ -95,6 +97,9 @@ while read -r LINE; do
 
   do_out "$SEP_BODY" 12  # print the line separator
 done < $FL_DAT
+
+# TODO: print the statistics: number of packages: all, installed, not installed, 
+#       not installed & available, not installed & not available
 
 # Print the Report file name
 do_out "The Report file:

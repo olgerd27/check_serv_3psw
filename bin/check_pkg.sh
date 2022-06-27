@@ -38,8 +38,7 @@ function findPackage
 # $3 - decision message
 function ExecPkgCommand
 {
-  CMD="$1"
-  OUT_CMD="$(eval $CMD 2>&1)"
+  OUT_CMD="$(eval $1 2>&1)"
   RC_CMD=$?
   # If Command OK && package cannot be searched in package manager
   # (short name is EMPTY), then this package is INSTALLED.
@@ -48,7 +47,7 @@ function ExecPkgCommand
       do_out "$3" 12 ||
       do_out "NOT $3" 12
   fi
-  do_out "Command execution '${CMD}':" 2
+  do_out "Command execution:" 2
   do_out "$OUT_CMD" 2
 }
 
