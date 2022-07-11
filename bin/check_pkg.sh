@@ -8,7 +8,7 @@
 # $1 - the string line, which will be parsed
 # $2 - items separator
 # #3 - number of item in the string line
-function getItem
+function GetItem
 {
   echo "$1" | cut -d"$2" -f$3
 }
@@ -20,7 +20,7 @@ function getItem
 # $3 - decision message
 # RC: 0 - package is found,
 #     1 - package is not found
-function findPackage
+function FindPackage
 {
   PKG_FND=$(echo "$1" | grep -E "^${2} ")
   RC=$?

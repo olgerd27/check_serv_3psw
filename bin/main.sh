@@ -85,10 +85,10 @@ while read -r LINE; do
   echo "$LINE" | grep -qE "^#|^$" && continue
 
   # Parsing the line
-  PKG_SHRT_NAME=$(getItem "$LINE" ":" 1)
-  PKG_LONG_NAME=$(getItem "$LINE" ":" 2)
-  PKG_BIT=$(getItem "$LINE" ":" 3)
-  PKG_CMD=$(getItem "$LINE" ":" 4)
+  PKG_SHRT_NAME=$(GetItem "$LINE" ":" 1)
+  PKG_LONG_NAME=$(GetItem "$LINE" ":" 2)
+  PKG_BIT=$(GetItem "$LINE" ":" 3)
+  PKG_CMD=$(GetItem "$LINE" ":" 4)
 
   # Validation and initialization by the 'Package Short Name' value from dat-file
   if [ -z "$PKG_SHRT_NAME" ]; then
@@ -119,15 +119,15 @@ while read -r LINE; do
   # Find the package(-s) in different packages lists only if the 
   # the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
-    # TODO: rename function name - start with a capital letter 
-    # find in a list of installed packages
-    findPackage "$PKGS_INST" "$PKG_SHRT_NAME" "INSTALLED"
+    # Find in a list of installed packages
+    FindPackage "$PKGS_INST" "$PKG_SHRT_NAME" "INSTALLED"
     RC_INS=$?
-    # TODO: do the search of package within the available packages only if it's not 
-    # found within the installed packages
-    # find in a list of available packages
-    findPackage "$PKGS_AVLB" "$PKG_SHRT_NAME" "AVAILABLE"
-    RC_AVL=$?
+
+    # Find a package in a list of available pkgs if it's not found amoung installed
+    if [ $RC_INS -ne 0 ]; then
+      FindPackage "$PKGS_AVLB" "$PKG_SHRT_NAME" "AVAILABLE"
+      RC_AVL=$?
+    fi
   fi
 
   # Execute the Command from the dat-file
@@ -153,6 +153,8 @@ while read -r LINE; do
   do_out "$SEP_BODY" 12  # print the line separator
 done < $FL_DAT
 
+# TODO: do the some checks of gathered statistics values, e.g.: 
+#       N_ALL = N_INS + N_NINS,   N_NINS = N_NINS_AVL + N_NINS_NAVL
 # TODO: print the statistics in an external finction - number of packages: all, 
 # installed, not installed, not installed & available, not installed & not available
 echo "Package Statistics:"
