@@ -116,6 +116,9 @@ while read -r LINE; do
     CAN_RUN_CMD=True
   fi
 
+  # Init return codes to avoid influencing of their values between iterations
+  RC_INS=-1;  RC_AVL=-1;  RC_CMD=-1
+
   # Find the package(-s) in different packages lists only if the 
   # the package short name is specified in the dat-file
   if [ $CAN_FIND_PKG = True ]; then
@@ -138,12 +141,14 @@ while read -r LINE; do
 
   # Collection of statistics - number of packages:
   ((N_ALL++))  # - all
-  if [[ $CAN_FIND_PKG = True && $RC_INS -eq 0 ]] || 
-     [[ $CAN_FIND_PKG = False && $RC_CMD -eq 0 ]]; then
+#  if [[ $CAN_FIND_PKG = True && $RC_INS -eq 0 ]] || 
+#     [[ $CAN_FIND_PKG = False && $RC_CMD -eq 0 ]]; then
+  if [ $RC_INS -eq 0 ] || [ $RC_CMD -eq 0 ]; then
     ((N_INS++))       # - installed
   else
     ((N_NINS++))      # - not installed
-    if [[ $CAN_FIND_PKG = True && $RC_INS -ne 0 && $RC_AVL -eq 0 ]]; then
+#    if [[ $CAN_FIND_PKG = True && $RC_INS -ne 0 && $RC_AVL -eq 0 ]]; then
+    if [ $RC_AVL -eq 0 ]; then
       ((N_NINS_AVL++))  # - not installed & available
     else
       ((N_NINS_NAVL++)) # - not installed & not available
