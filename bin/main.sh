@@ -168,6 +168,13 @@ echo "  - Installed: ${N_INS}"
 echo "  - Not Installed: ${N_NINS}"
 echo "  - Not Installed & Available: ${N_NINS_AVL}"
 echo "  - Not Installed & Not Available: ${N_NINS_NAVL}"
+# Statistics validation
+[ $N_ALL -ne $(($N_INS + $N_NINS)) ] && 
+echo "!---Warning 3. Invalid statistics:
+'All' != 'Installed' + 'Not Installed'" 1>&2
+[ $N_NINS -ne $(($N_NINS_AVL + $N_NINS_NAVL)) ] && 
+echo "!---Warning 4. Invalid statistics: 
+'Not Installed' != 'Not Installed & Available' + 'Not Installed & Not Available'" 1>&2
 echo "$SEP_HEAD"
 
 # Print the Report file name
