@@ -1,4 +1,4 @@
-# Package short name:Package long name:Bittness:Command
+# PACKAGE SHORT NAME:PACKAGE LONG NAME:BITNESS:COMMAND
 #
 # Test 1, expected: INSTALLED, AVAILABLE (upd)
 glibc.x86_64:The GNU libc libraries:64:

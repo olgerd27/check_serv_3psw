@@ -1,0 +1,46 @@
+# PACKAGE SHORT NAME:PACKAGE LONG NAME:BITNESS:COMMAND
+#
+# Test 1, expected: INSTALLED
+# Short Name - Empty, Command - OK
+:Oracle Client 12c:64:df | grep "/tmp$"
+#
+# Test 2, expected: INSTALLED
+# Short Name - installed OK, available OK, Command - Ok
+gcc.x86_64:GNU GCC Compiler:64:/usr/bin/gcc -v 2>&1 | tail -1
+#
+# Test 3, expected: INSTALLED
+# Short Name - installed OK, available OK, Command - False
+zram-generator.x86_64:Systemd unit generator for zram swap devices:64:invalid_cmd
+#
+# Test 4, expected: INSTALLED
+# Short Name - installed OK, available OK, Command - Empty
+glibc.x86_64:The GNU libc libraries:64:
+#
+#
+# Test 5, expected: NOT INSTALLED
+# Short Name - Empty, Command - False
+:Oracle JDK 8.0_u101:64:invalid_cmd
+#
+#
+# Test 6, expected: NOT INSTALLED, AVAILABLE
+# Short Name - installed False, available OK, Command - False
+zlib.i686:Compression and decompression library:32:invalid_cmd
+#
+# Test 7, expected: NOT INSTALLED, AVAILABLE
+# Short Name - installed False, available OK, Command - Empty
+glibc.i686:The GNU libc libraries:32:
+#
+#
+# Test 8, expected: NOT INSTALLED, NOT AVAILABLE
+# Short Name - installed False, available False, Command - False
+non_ex_pkg.i686:A Non-Existent package 1:32:invalid_cmd
+#
+# Test 9, expected: NOT INSTALLED, NOT AVAILABLE
+# Short Name - installed False, available False, Command - Empty
+non_exst_pkg.x86_64:x86_64:A Non-Existent package 2:64:
+#
+#
+# Test 10, expected: Error - Empty Short Name && Command
+# Short Name - Empty, Command - Empty
+:A Non-Existent package 3:32:
+#

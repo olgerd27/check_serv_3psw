@@ -1,4 +1,4 @@
-# Package short name:Package long name:Bittness:Command
+# PACKAGE SHORT NAME:PACKAGE LONG NAME:BITNESS:COMMAND
 acl.x86_64:Access control list utilities:64:
 atk.x86_64:Interfaces for accessibility support:64:
 bash.x86_64:The GNU Bourne Again shell:64:/usr/bin/bash --version | head -1
