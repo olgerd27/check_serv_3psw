@@ -102,14 +102,12 @@ while read -r LINE; do
   # Print a title for this package
   do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 12
 
-  # Validation and initialization by the Command' value from dat-file
-  # TODO: add check for PKG_CMD that it's more like a command, 
-  #       e.g. check the length of the data in it
-  if [ -z "$PKG_CMD" ]; then
+  # Validation the Command value, obtained from dat-file
+  if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
     if [ $CAN_FIND_PKG = False ]; then
       echo "!---Error 2. Invalid data in dat-file - empty short name and command" 1>&2
       echo "Please specify at least one of these values" 1>&2
-      exit 2
+      continue
     fi
     CAN_RUN_CMD=False
   else
@@ -139,36 +137,12 @@ while read -r LINE; do
     RC_CMD=$?
   fi
 
-  # Collection of statistics - number of packages:
-  ((N_ALL++))  # - all
-#  if [[ $CAN_FIND_PKG = True && $RC_INS -eq 0 ]] || 
-#     [[ $CAN_FIND_PKG = False && $RC_CMD -eq 0 ]]; then
-  if [ $RC_INS -eq 0 ] || [ $RC_CMD -eq 0 ]; then
-    ((N_INS++))       # - installed
-  else
-    ((N_NINS++))      # - not installed
-#    if [[ $CAN_FIND_PKG = True && $RC_INS -ne 0 && $RC_AVL -eq 0 ]]; then
-    if [ $RC_AVL -eq 0 ]; then
-      ((N_NINS_AVL++))  # - not installed & available
-    else
-      ((N_NINS_NAVL++)) # - not installed & not available
-    fi
-  fi
+  gath_stats  # collecting the packages statistics
 
   do_out "$SEP_BODY" 12  # print the line separator
 done < $FL_DAT
 
-# TODO: do the some checks of gathered statistics values, e.g.: 
-#       N_ALL = N_INS + N_NINS,   N_NINS = N_NINS_AVL + N_NINS_NAVL
-# TODO: print the statistics in an external finction - number of packages: all, 
-# installed, not installed, not installed & available, not installed & not available
-echo "Package Statistics:"
-echo "  - All: ${N_ALL}"
-echo "  - Installed: ${N_INS}"
-echo "  - Not Installed: ${N_NINS}"
-echo "  - Not Installed & Available: ${N_NINS_AVL}"
-echo "  - Not Installed & Not Available: ${N_NINS_NAVL}"
-echo "$SEP_HEAD"
+do_out "$(prn_stats)" 12  # printing statistics
 
 # Print the Report file name
 do_out "The Report file:
