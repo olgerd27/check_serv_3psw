@@ -102,14 +102,12 @@ while read -r LINE; do
   # Print a title for this package
   do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 12
 
-  # Validation and initialization by the Command' value from dat-file
-  # TODO: add check for PKG_CMD that it's more like a command, 
-  #       e.g. check the length of the data in it
-  if [ -z "$PKG_CMD" ]; then
+  # Validation the Command value, obtained from dat-file
+  if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
     if [ $CAN_FIND_PKG = False ]; then
       echo "!---Error 2. Invalid data in dat-file - empty short name and command" 1>&2
       echo "Please specify at least one of these values" 1>&2
-      exit 2
+      continue
     fi
     CAN_RUN_CMD=False
   else
