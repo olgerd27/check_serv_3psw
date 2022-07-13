@@ -73,8 +73,8 @@ gcc.x86_64                     11.3.1-2.fc35            updates
 glibc.i686                     2.34-35.fc35             updates                   
 glibc.x86_64                   2.34-35.fc35             updates"
 # - using yum 
-PKGS_INST="$(yum list installed)"
-PKGS_AVLB="$(yum list available)"
+#PKGS_INST="$(yum list installed)"
+#PKGS_AVLB="$(yum list available)"
 # - using rpm
 #PKGS_INST="$(rpm -qa)"
 printf "DONE\n%s\n" $SEP_BODY
@@ -83,6 +83,15 @@ printf "DONE\n%s\n" $SEP_BODY
 while read -r LINE; do
   # Skip the blank and commented lines 
   echo "$LINE" | grep -qE "^#|^$" && continue
+
+  # Validate the line
+  if [ $(echo "$LINE" | grep -o ":" | wc -l) -ne 3 ]; then
+    echo "!---Error 2. Invalid line in dat-file ${FL_DAT}:" 1>&2
+    echo "'${LINE}'" 1>&2
+    echo "Please check the fields number in the line (should be 4)." 1>&2
+    do_out "$SEP_BODY" 12  # print the line separator
+    continue
+  fi
 
   # Parsing the line
   PKG_SHRT_NAME=$(GetItem "$LINE" ":" 1)
@@ -105,8 +114,9 @@ while read -r LINE; do
   # Validation the Command value, obtained from dat-file
   if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
     if [ $CAN_FIND_PKG = False ]; then
-      echo "!---Error 2. Invalid data in dat-file - empty short name and command" 1>&2
-      echo "Please specify at least one of these values" 1>&2
+      echo "!---Error 3. Invalid data in dat-file - empty short name and command" 1>&2
+      echo "Please specify at least one of these values." 1>&2
+      do_out "$SEP_BODY" 12  # print the line separator
       continue
     fi
     CAN_RUN_CMD=False

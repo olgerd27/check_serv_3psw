@@ -37,10 +37,10 @@ non_ex_pkg.i686:A Non-Existent package 1:32:invalid_cmd
 #
 # Test 9, expected: NOT INSTALLED, NOT AVAILABLE
 # Short Name - installed False, available False, Command - Empty
-non_exst_pkg.x86_64:x86_64:A Non-Existent package 2:64:
+non_exst_pkg.x86_64:A Non-Existent package 2:64:
 #
 #
 # Test 10, expected: Error - Empty Short Name && Command
 # Short Name - Empty, Command - Empty
-:A Non-Existent package 3:32:
+#:A Non-Existent package 3:32:
 #
