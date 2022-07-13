@@ -34,6 +34,30 @@ function prn_list_repos
   echo "$SEP_HEAD"
 }
 
+# Print the statistics - number of packages: all, installed, not installed,
+# not installed & available, not installed & not available
+# All the input data is global variables.
+function prn_stats
+{
+  echo "Statistics:
+  - All: ${N_ALL}
+  - Installed: ${N_INS}
+  - Not Installed: ${N_NINS}
+  - Not Installed & Available: ${N_NINS_AVL}
+  - Not Installed & Not Available: ${N_NINS_NAVL}"
+
+  # Statistics validation
+  [ $N_ALL -ne $(($N_INS + $N_NINS)) ] &&
+  echo "!---Warning 3. Invalid statistics:
+'All' != 'Installed' + 'Not Installed'"
+
+  [ $N_NINS -ne $(($N_NINS_AVL + $N_NINS_NAVL)) ] &&
+  echo "!---Warning 4. Invalid statistics:
+'Not Installed' != 'Not Installed & Available' + 'Not Installed & Not Available'"
+
+  echo "$SEP_HEAD"
+}
+
 # Do the output in different output direction modes.
 # $1 - data to be output
 # $2 - output mode:

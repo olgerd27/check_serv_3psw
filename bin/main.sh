@@ -141,13 +141,10 @@ while read -r LINE; do
 
   # Collection of statistics - number of packages:
   ((N_ALL++))  # - all
-#  if [[ $CAN_FIND_PKG = True && $RC_INS -eq 0 ]] || 
-#     [[ $CAN_FIND_PKG = False && $RC_CMD -eq 0 ]]; then
   if [ $RC_INS -eq 0 ] || [ $RC_CMD -eq 0 ]; then
     ((N_INS++))       # - installed
   else
     ((N_NINS++))      # - not installed
-#    if [[ $CAN_FIND_PKG = True && $RC_INS -ne 0 && $RC_AVL -eq 0 ]]; then
     if [ $RC_AVL -eq 0 ]; then
       ((N_NINS_AVL++))  # - not installed & available
     else
@@ -158,24 +155,7 @@ while read -r LINE; do
   do_out "$SEP_BODY" 12  # print the line separator
 done < $FL_DAT
 
-# TODO: do the some checks of gathered statistics values, e.g.: 
-#       N_ALL = N_INS + N_NINS,   N_NINS = N_NINS_AVL + N_NINS_NAVL
-# TODO: print the statistics in an external finction - number of packages: all, 
-# installed, not installed, not installed & available, not installed & not available
-echo "Package Statistics:"
-echo "  - All: ${N_ALL}"
-echo "  - Installed: ${N_INS}"
-echo "  - Not Installed: ${N_NINS}"
-echo "  - Not Installed & Available: ${N_NINS_AVL}"
-echo "  - Not Installed & Not Available: ${N_NINS_NAVL}"
-# Statistics validation
-[ $N_ALL -ne $(($N_INS + $N_NINS)) ] && 
-echo "!---Warning 3. Invalid statistics:
-'All' != 'Installed' + 'Not Installed'" 1>&2
-[ $N_NINS -ne $(($N_NINS_AVL + $N_NINS_NAVL)) ] && 
-echo "!---Warning 4. Invalid statistics: 
-'Not Installed' != 'Not Installed & Available' + 'Not Installed & Not Available'" 1>&2
-echo "$SEP_HEAD"
+do_out "$(prn_stats)" 12  # print the statistics
 
 # Print the Report file name
 do_out "The Report file:
