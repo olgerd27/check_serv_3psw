@@ -139,23 +139,12 @@ while read -r LINE; do
     RC_CMD=$?
   fi
 
-  # Collection of statistics - number of packages:
-  ((N_ALL++))  # - all
-  if [ $RC_INS -eq 0 ] || [ $RC_CMD -eq 0 ]; then
-    ((N_INS++))       # - installed
-  else
-    ((N_NINS++))      # - not installed
-    if [ $RC_AVL -eq 0 ]; then
-      ((N_NINS_AVL++))  # - not installed & available
-    else
-      ((N_NINS_NAVL++)) # - not installed & not available
-    fi
-  fi
+  gath_stats  # collecting the packages statistics
 
   do_out "$SEP_BODY" 12  # print the line separator
 done < $FL_DAT
 
-do_out "$(prn_stats)" 12  # print the statistics
+do_out "$(prn_stats)" 12  # printing statistics
 
 # Print the Report file name
 do_out "The Report file:

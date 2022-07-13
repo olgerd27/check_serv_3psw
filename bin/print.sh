@@ -8,6 +8,7 @@ SEP_HEAD="**********************************************************************
 SEP_BODY="==========================="
 
 ####### Functions
+################################################################
 # Print the program Title
 function prn_title
 {
@@ -16,6 +17,7 @@ function prn_title
   echo "$SEP_HEAD"
 }
 
+################################################################
 # Print the current server info
 function prn_serv_info
 {
@@ -26,6 +28,7 @@ function prn_serv_info
   echo "$SEP_HEAD"
 }
 
+################################################################
 # Print a list of enabled repositories
 function prn_list_repos
 {
@@ -34,9 +37,14 @@ function prn_list_repos
   echo "$SEP_HEAD"
 }
 
-# Print the statistics - number of packages: all, installed, not installed,
-# not installed & available, not installed & not available
-# All the input data is global variables.
+################################################################
+# Printing the statistics - number of packages:
+# N_ALL - all
+# N_INS - installed
+# N_NINS - not installed
+# N_NINS_AVL - not installed & available
+# N_NINS_NAVL - not installed & not available
+# All the input data is the global variables.
 function prn_stats
 {
   echo "Statistics:
@@ -58,6 +66,7 @@ function prn_stats
   echo "$SEP_HEAD"
 }
 
+################################################################
 # Do the output in different output direction modes.
 # $1 - data to be output
 # $2 - output mode:

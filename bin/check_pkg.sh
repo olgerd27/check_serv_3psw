@@ -58,3 +58,30 @@ function ExecPkgCommand
   return $RC_CMD
 }
 
+################################################################
+# Collection of statistics - number of packages:
+# N_ALL - all
+# N_INS - installed
+# N_NINS - not installed
+# N_NINS_AVL - not installed & available
+# N_NINS_NAVL - not installed & not available
+# Return codes:
+# RC_INS - RC of package finding among the installed packages
+# RC_AVL - RC of package finding among the available packages
+# RC_CMD - RC of successfulness the Command execution
+# All the input data is the global variables.
+function gath_stats
+{
+  ((N_ALL++))  # - all
+  if [ $RC_INS -eq 0 ] || [ $RC_CMD -eq 0 ]; then
+    ((N_INS++))       # - installed
+  else
+    ((N_NINS++))      # - not installed
+    if [ $RC_AVL -eq 0 ]; then
+      ((N_NINS_AVL++))  # - not installed & available
+    else
+      ((N_NINS_NAVL++)) # - not installed & not available
+    fi
+  fi
+}
+
