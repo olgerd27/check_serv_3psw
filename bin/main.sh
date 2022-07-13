@@ -24,18 +24,30 @@ SH_FUNC_PRN=${D_CURR}/print.sh
 SH_CHECK_PKG=${D_CURR}/check_pkg.sh
 
 ####### Initialization
-# Init checks
+# Check OS
 [ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
-# TODO: check if dat-file exists
-# TODO: check if $D_OUT dir exists, if not - print a message like:
-# The program is not installed, please check existance of $D_OUT directory.
-# TODO: move here the Report file creation if $D_OUT exists
-
 
 # Load the shell-scripts
 for SCR in $SH_FUNC_PRN $SH_CHECK_PKG; do
   . $SCR
 done
+
+# Check an existance of the dat-file
+if [ ! -f "$FL_DAT" ]; then
+  do_out "!---Error 2. The dat-file is unavailable:
+'${FL_DAT}'" 2
+  exit 2
+fi
+
+# Check an existance of the output dir
+if [ ! -d "$D_OUT" ]; then
+  do_out "!---Error 3. The output directory is unavailable:
+'${D_OUT}'
+It looks like the Program is not installed" 2
+  exit 3
+fi
+
+touch $FL_REP  # create the Report file
 
 # Init the variables
 # Data from dat-file
@@ -52,7 +64,6 @@ N_NINS_AVL=0   # not installed & available
 N_NINS_NAVL=0  # not installed & not available
 
 ####### Start the program
-touch $FL_REP
 do_out "$(prn_title)" 13
 do_out "$(prn_serv_info)" 3
 do_out "$(prn_list_repos)" 3
@@ -112,6 +123,8 @@ ${SEP_BODY}" 23
   do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 13
 
   # Validation the Command value, obtained from dat-file
+  # TODO: create function and move the criterea below there and 
+  # call the function below, as well as for $PKG_SHRT_NAME also
   if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
     if [ $CAN_FIND_PKG = False ]; then
       do_out "!---Error 3. Invalid data in dat-file - empty short name and command
