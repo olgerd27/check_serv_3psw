@@ -53,9 +53,9 @@ N_NINS_NAVL=0  # not installed & not available
 
 ####### Start the program
 touch $FL_REP
-do_out "$(prn_title)" 12
-do_out "$(prn_serv_info)" 2 
-do_out "$(prn_list_repos)" 2
+do_out "$(prn_title)" 13
+do_out "$(prn_serv_info)" 3
+do_out "$(prn_list_repos)" 3
 
 # Getting the packages
 printf "Getting the packages..."
@@ -86,10 +86,10 @@ while read -r LINE; do
 
   # Validate the line
   if [ $(echo "$LINE" | grep -o ":" | wc -l) -ne 3 ]; then
-    echo "!---Error 2. Invalid line in dat-file ${FL_DAT}:" 1>&2
-    echo "'${LINE}'" 1>&2
-    echo "Please check the fields number in the line (should be 4)." 1>&2
-    do_out "$SEP_BODY" 12  # print the line separator
+    do_out "!---Error 2. Invalid line in dat-file ${FL_DAT}:
+'${LINE}'
+Please check the fields number in the line (should be 4).
+${SEP_BODY}" 23
     continue
   fi
 
@@ -109,14 +109,14 @@ while read -r LINE; do
   fi
 
   # Print a title for this package
-  do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 12
+  do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 13
 
   # Validation the Command value, obtained from dat-file
   if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
     if [ $CAN_FIND_PKG = False ]; then
-      echo "!---Error 3. Invalid data in dat-file - empty short name and command" 1>&2
-      echo "Please specify at least one of these values." 1>&2
-      do_out "$SEP_BODY" 12  # print the line separator
+      do_out "!---Error 3. Invalid data in dat-file - empty short name and command
+Please specify at least one of these values.
+${SEP_BODY}" 23
       continue
     fi
     CAN_RUN_CMD=False
@@ -149,10 +149,10 @@ while read -r LINE; do
 
   gath_stats  # collecting the packages statistics
 
-  do_out "$SEP_BODY" 12  # print the line separator
+  do_out "$SEP_BODY" 13  # print the line separator
 done < $FL_DAT
 
-do_out "$(prn_stats)" 12  # printing statistics
+do_out "$(prn_stats)" 13  # printing statistics
 
 # Print the Report file name
 do_out "The Report file:

@@ -69,22 +69,37 @@ function prn_stats
 ################################################################
 # Do the output in different output direction modes.
 # $1 - data to be output
-# $2 - output mode:
-#      1  - to stdout
-#      2  - to Report
-#      12 - to stdout & Report
+# $2 - output modes:
+#      1  - to STDOUT
+#      2  - to STDERR
+#      3  - to Report
+#      13 - to STDOUT && Report
+#      23 - to STDERR && Report
 function do_out
 {
-  if [ "$2" = "1" ]; then
-    echo "$1"
-  elif [ "$2" = "2" ]; then
-    echo "$1" >> $FL_REP
-  elif [ "$2" = "12" ]; then
-    echo "$1" | tee -a $FL_REP
+  if [ $# -ne 2 ]; then
+    echo "!---Error 50. do_out():
+invalid argument number ($#) to output the following:
+'${1}'" 1>&2
+    exit 50
+  fi
+
+  if [ $2 -eq 1 ]; then
+    echo "$1"                  # to STDOUT
+  elif [ $2 -eq 2 ]; then
+    echo "$1" 1>&2             # to STDERR
+  elif [ $2 -eq 3 ]; then
+    echo "$1" >> $FL_REP       # to Report
+  elif [ $2 -eq 13 ]; then
+    echo "$1" | tee -a $FL_REP # to STDOUT && Report
+  elif [ $2 -eq 23 ]; then
+    echo "$1" 1>&2             # to STDERR
+    echo "$1" | tee -a $FL_REP # to Report
   else
-    printf "!---Error 55: invalid output mode '%i' to output the following:\n%s\n" \
-      "$2" "$1" 1>&2
-    exit 55
+    echo "!---Error 51. do_out(): 
+invalid output mode '${2}' to output the following:
+'${1}'" 1>&2
+    exit 51
   fi
 }
 

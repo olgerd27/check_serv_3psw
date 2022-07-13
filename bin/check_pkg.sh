@@ -26,10 +26,10 @@ function FindPackage
   RC=$?
   if [ $RC -eq 0 ]; then
     PKG_FND="$(echo "$PKG_FND" | sed 's/     / /g')" # decrease a number of spaces
-    do_out "$3" 12
-    do_out "$PKG_FND" 2
+    do_out "$3" 13
+    do_out "$PKG_FND" 3
   else
-    do_out "NOT $3" 12
+    do_out "NOT $3" 13
   fi
   return $RC
 }
@@ -50,11 +50,11 @@ function ExecPkgCommand
   # then this package is INSTALLED.
   if [ $2 = False ]; then
     [ $RC_CMD -eq 0 ] &&
-      do_out "$3" 12 ||
-      do_out "NOT $3" 12
+      do_out "$3" 13 ||
+      do_out "NOT $3" 13
   fi
-  do_out "Command execution:" 2
-  do_out "$OUT_CMD" 2
+  do_out "Command execution:" 3
+  do_out "$OUT_CMD" 3
   return $RC_CMD
 }
 
