@@ -14,6 +14,15 @@ function GetItem
 }
 
 ################################################################
+# Check if a string is empty or contains spaces only.
+# $1 - field data from dat-file
+function IsEmptyString
+{
+  echo "$1" | grep -qE "^[[:space:]]*$"
+  return $?
+}
+
+################################################################
 # Find the package(-s) in the packages list
 # $1 - a list of packages
 # $2 - the searched package name

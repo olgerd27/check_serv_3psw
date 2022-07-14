@@ -80,8 +80,8 @@ gcc.x86_64                     11.3.1-2.fc35            updates
 glibc.i686                     2.34-35.fc35             updates                   
 glibc.x86_64                   2.34-35.fc35             updates"
 # - using yum 
-#PKGS_INST="$(yum list installed)"
-#PKGS_AVLB="$(yum list available)"
+PKGS_INST="$(yum list installed)"
+PKGS_AVLB="$(yum list available)"
 # - using rpm
 #PKGS_INST="$(rpm -qa)"
 printf "DONE\n%s\n" $SEP_BODY
@@ -107,7 +107,7 @@ ${SEP_BODY}" 23
   PKG_CMD=$(GetItem "$LINE" ":" 4)
 
   # Validation and initialization by the 'Package Short Name' value from dat-file
-  if [ -z "$PKG_SHRT_NAME" ]; then
+  if IsEmptyString "$PKG_SHRT_NAME"; then
     STR_SHRT=""  # string with the package short name
     CAN_FIND_PKG=False  # flag if it's possible to find package in pkg manager
   else
@@ -118,10 +118,8 @@ ${SEP_BODY}" 23
   # Print a title for this package
   do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 13
 
-  # Validation the Command value, obtained from dat-file
-  # TODO: create function and move the criterea below there and 
-  # call the function below, as well as for $PKG_SHRT_NAME also
-  if $(echo "$PKG_CMD" | grep -qE "^[[:space:]]*$"); then
+  # Validation and initialization by the 'Command' value from dat-file
+  if IsEmptyString "$PKG_CMD"; then
     if [ $CAN_FIND_PKG = False ]; then
       do_out "!---Error 3. Invalid data in dat-file - empty short name and command
 Please specify at least one of these values.
