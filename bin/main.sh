@@ -1,8 +1,4 @@
 #!/bin/ksh
-# TODO: create the 'install' file, which can do the following:
-#       - create 'out' directory
-#       - chmod -R g+w .
-#       - chmod 774 bin/*
 ###############################################################################
 # The main program
 ###############################################################################
