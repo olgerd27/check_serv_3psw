@@ -31,8 +31,9 @@ function IsEmptyString
 #     1 - package is not found
 function FindPackage
 {
+  typeset PKG_FND # forward declaration
   PKG_FND=$(echo "$1" | grep -E "^${2} ")
-  RC=$?
+  typeset RC=$?
   if [ $RC -eq 0 ]; then
     PKG_FND="$(echo "$PKG_FND" | sed 's/     / /g')" # decrease a number of spaces
     do_out "$3" 13
@@ -53,18 +54,19 @@ function FindPackage
 #     1 - package is not installed
 function ExecPkgCommand
 {
+  typeset OUT_CMD  # forward declaration
   OUT_CMD="$(eval $1 2>&1)"
-  RC_CMD=$?
+  typeset RC=$?
   # If Short Package Name is EMPTY && Command executed OK, 
   # then this package is INSTALLED.
   if [ $2 = False ]; then
-    [ $RC_CMD -eq 0 ] &&
+    [ $RC -eq 0 ] &&
       do_out "$3" 13 ||
       do_out "NOT $3" 13
   fi
   do_out "Command execution:" 3
   do_out "$OUT_CMD" 3
-  return $RC_CMD
+  return $RC
 }
 
 ################################################################

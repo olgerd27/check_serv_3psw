@@ -80,8 +80,8 @@ gcc.x86_64                     11.3.1-2.fc35            updates
 glibc.i686                     2.34-35.fc35             updates                   
 glibc.x86_64                   2.34-35.fc35             updates"
 # - using yum 
-PKGS_INST="$(yum list installed)"
-PKGS_AVLB="$(yum list available)"
+#PKGS_INST="$(yum list installed)"
+#PKGS_AVLB="$(yum list available)"
 # - using rpm
 #PKGS_INST="$(rpm -qa)"
 printf "DONE\n%s\n" $SEP_BODY
