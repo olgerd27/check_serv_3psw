@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2022. Released under the MIT License.
 
+# Check OS
+[ "$(uname -s)" != "Linux" ] && echo "Please run on Linux only" >&2 && exit 1
+
 ##### Init data
 # Directories
 D_CURR=$(dirname $0)  # current dir
