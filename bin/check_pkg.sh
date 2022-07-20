@@ -10,7 +10,7 @@
 # #3 - number of item in the string line
 function GetItem
 {
-  echo "$1" | cut -d"$2" -f$3
+  echo -n "$1" | cut -d"$2" -f$3
 }
 
 ################################################################
