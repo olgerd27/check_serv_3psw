@@ -32,7 +32,7 @@ function IsEmptyString
 function FindPackage
 {
   typeset PKG_FND # forward declaration
-  PKG_FND=$(echo "$1" | grep -E "^${2} ")
+  PKG_FND=$(echo "$1" | grep "^${2} ")
   typeset RC=$?
   if [ $RC -eq 0 ]; then
     PKG_FND="$(echo "$PKG_FND" | sed 's/     / /g')" # decrease a number of spaces
