@@ -70,13 +70,14 @@ function ExecPkgCommand
 }
 
 ################################################################
-# Collection of statistics - number of packages:
+# Collection of statistics.
+# Init data - global variables - number of packages:
 # N_ALL - all
 # N_INS - installed
 # N_NINS - not installed
 # N_NINS_AVL - not installed & available
 # N_NINS_NAVL - not installed & not available
-# Return codes:
+# Init data - Return codes:
 # RC_INS - RC of package finding among the installed packages
 # RC_AVL - RC of package finding among the available packages
 # RC_CMD - RC of successfulness the Command execution

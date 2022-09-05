@@ -22,9 +22,10 @@ function prn_title
 function prn_serv_info
 {
   echo "Server info:"
-  cat /etc/redhat-release
-  uname -a
-  uptime
+  cat /etc/redhat-release  # release number
+  uname -a  # system info
+  uptime    # host load info
+  ip -4 -o a | cut -d' ' -f 2,7 | cut -d '/' -f 1 | grep -v "127.0.0.1" # ip
   echo "$SEP_HEAD"
 }
 
