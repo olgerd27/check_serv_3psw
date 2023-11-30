@@ -22,12 +22,13 @@ function prn_title
 function prn_serv_info
 {
   echo "Server info:"
-  cat /etc/redhat-release  # release number
+  lscpu | grep "^Model name:" | tr -s ' '  # model name & CPU
+  grep MemTotal /proc/meminfo | tr -s ' '  # total amount of memory
+  # Network interface and the IP address on it
+  echo "IP: $(ip -4 -o a | cut -d' ' -f 2,7 | cut -d '/' -f 1 | grep -v "127.0.0.1")"
+  echo "Version: $(cat /etc/redhat-release)"  # release number
   echo "uname: $(uname -a)"  # system info
   echo "uptime: $(uptime)"    # host load info
-  NETINF="$(ip -4 -o a | cut -d' ' -f 2,7 | cut -d '/' -f 1 | grep -v "127.0.0.1")" # ip
-  echo "Network interface: $(echo $NETINF | cut -d' ' -f1)"  # network interface
-  echo "IP: $(echo $NETINF | cut -d' ' -f2)"  # IP
   echo "$SEP_HEAD"
 }
 
