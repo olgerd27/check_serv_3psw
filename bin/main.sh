@@ -60,6 +60,7 @@ N_NINS_AVL=0   # not installed & available
 N_NINS_NAVL=0  # not installed & not available
 
 ####### Start the program
+# Printing the header - overall info about the host
 do_out "$(prn_title)" 13
 do_out "$(prn_serv_info)" 3
 do_out "$(prn_list_repos)" 3

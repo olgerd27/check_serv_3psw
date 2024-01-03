@@ -21,10 +21,20 @@ function prn_title
 # Print the current server info
 function prn_serv_info
 {
-  echo "Server info:"
-  lscpu | grep "^Model name:" | tr -s ' '  # model name & CPU
-  grep MemTotal /proc/meminfo | tr -s ' '  # total amount of memory
-  # Network interface and the IP address on it
+  echo "=> Server info"
+
+  typeset OUT_LSCPU="$(lscpu)"
+  # CPU's model name & base clock speed
+  echo "$OUT_LSCPU" | grep "^Model name:" | tr -s ' '
+  # CPU's current operating frequency:
+  echo "CPU current frequency, MHz: $(echo "$OUT_LSCPU" | grep "CPU MHz:" | awk '{print $NF}')"
+  # Number of CPUs
+  echo "$OUT_LSCPU" | grep "^CPU(s):" | tr -s ' '
+
+  # Total amount of memory
+  grep MemTotal /proc/meminfo | tr -s ' '
+
+  # Network interface and the IP address on it:
   echo "IP: $(ip -4 -o a | cut -d' ' -f 2,7 | cut -d '/' -f 1 | grep -v "127.0.0.1")"
   echo "Version: $(cat /etc/redhat-release)"  # release number
   echo "uname: $(uname -a)"  # system info
@@ -36,7 +46,7 @@ function prn_serv_info
 # Print a list of enabled repositories
 function prn_list_repos
 {
-  echo "List of enabled repositories:"
+  echo "=> List of enabled repositories"
   yum repolist
   echo "$SEP_HEAD"
 }
