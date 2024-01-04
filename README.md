@@ -3,4 +3,4 @@ Checking the installed 3PSW on a server.
 
 ### Tested on the following platforms: 
 - Linux Fedora 35
-- RHEL 8.3+
+- RHEL 8.x
