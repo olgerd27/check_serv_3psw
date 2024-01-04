@@ -25,7 +25,7 @@ function prn_serv_info
 
   typeset OUT_LSCPU="$(lscpu)"
   # CPU's model name & base clock speed
-  echo "$OUT_LSCPU" | grep "^Model name:" | tr -s ' '
+  echo "CPU $(echo "$OUT_LSCPU" | grep "^Model name:" | tr -s ' ')"
   # CPU's current operating frequency:
   echo "CPU current frequency, MHz: $(echo "$OUT_LSCPU" | grep "CPU MHz:" | awk '{print $NF}')"
   # Number of CPUs
@@ -81,39 +81,35 @@ function prn_stats
 }
 
 ################################################################
-# Do the output in different output direction modes.
+# Do the data output in different output direction modes.
 # $1 - data to be output
-# $2 - output modes:
+# $2.. - output modes:
 #      1  - to STDOUT
 #      2  - to STDERR
 #      3  - to Report
-#      13 - to STDOUT && Report
-#      23 - to STDERR && Report
 function do_out
 {
-  if [ $# -ne 2 ]; then
+  DATA="$1"
+  if [ $# -lt 2 ]; then
     echo "!---Error 50. do_out():
-invalid argument number ($#) to output the following:
-'${1}'" 1>&2
+invalid number of arguments (N=$#) to output the following:
+'${DATA}'" 1>&2
     exit 50
   fi
 
-  if [ $2 -eq 1 ]; then
-    echo "$1"                  # to STDOUT
-  elif [ $2 -eq 2 ]; then
-    echo "$1" 1>&2             # to STDERR
-  elif [ $2 -eq 3 ]; then
-    echo "$1" >> $FL_REP       # to Report
-  elif [ $2 -eq 13 ]; then
-    echo "$1" | tee -a $FL_REP # to STDOUT && Report
-  elif [ $2 -eq 23 ]; then
-    echo "$1" 1>&2             # to STDERR
-    echo "$1" | tee -a $FL_REP # to Report
-  else
-    echo "!---Error 51. do_out(): 
-invalid output mode '${2}' to output the following:
-'${1}'" 1>&2
-    exit 51
-  fi
+  shift # shift to the next argument
+
+  while [ $# -gt 0 ]; do
+    case $1 in
+      1) echo "$DATA" ;;             # to STDOUT
+      2) echo "$DATA" 1>&2 ;;        # to STDERR
+      3) echo "$DATA" >> $FL_REP ;;  # to Report
+      *) echo "!---Error 51. do_out_new():
+invalid output mode '${1}' to output the following:
+'${DATA}'" 1>&2
+      exit 51 ;;
+    esac
+    shift # shift to the next argument
+  done
 }
 

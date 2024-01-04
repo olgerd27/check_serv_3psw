@@ -61,7 +61,7 @@ N_NINS_NAVL=0  # not installed & not available
 
 ####### Start the program
 # Printing the header - overall info about the host
-do_out "$(prn_title)" 13
+do_out "$(prn_title)" 1 3
 do_out "$(prn_serv_info)" 3
 do_out "$(prn_list_repos)" 3
 
@@ -98,7 +98,7 @@ while read -r LINE; do
     do_out "!---Error 2. Invalid line in dat-file ${FL_DAT}:
 '${LINE}'
 Please check the fields number in the line (should be 4).
-${SEP_BODY}" 23
+${SEP_BODY}" 2 3
     continue
   fi
 
@@ -118,14 +118,14 @@ ${SEP_BODY}" 23
   fi
 
   # Print a title for this package
-  do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 13
+  do_out "Package '${PKG_LONG_NAME}' ${PKG_BIT}-bit${STR_SHRT}:" 1 3
 
   # Validation and initialization by the 'Command' value from dat-file
   if IsEmptyString "$PKG_CMD"; then
     if [ $CAN_FIND_PKG = False ]; then
       do_out "!---Error 3. Invalid data in dat-file - empty short name and command
 Please specify at least one of these values.
-${SEP_BODY}" 23
+${SEP_BODY}" 2 3
       continue
     fi
     CAN_RUN_CMD=False
@@ -158,10 +158,10 @@ ${SEP_BODY}" 23
 
   gath_stats  # collecting the packages statistics
 
-  do_out "$SEP_BODY" 13  # print the line separator
+  do_out "$SEP_BODY" 1 3  # print the line separator
 done < $FL_DAT
 
-do_out "$(prn_stats)" 13  # printing statistics
+do_out "$(prn_stats)" 1 3  # printing statistics
 
 # Print the Report file name
 do_out "The Report file:
